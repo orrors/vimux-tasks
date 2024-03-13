@@ -1,0 +1,24 @@
+*vimux-tasks.txt*  extension for vimux https://github.com/preservim/vimux
+
+==============================================================================
+CONTENTS                                                        *vimux-contents*
+
+    1. About............................ |VimuxTasksAbout|
+    2. Usage ........................... |VimuxTasksUsage|
+    3. Configuration ................... |VimuxTasksConfiguration|
+
+
+==============================================================================
+ABOUT (1)                                                           *VimuxAbout*
+
+Vimux -- Easily interact with tmux from vim.
+
+...
+
+
+==============================================================================
+USAGE (2)                                                           *VimuxUsage*
+
+
+==============================================================================
+vim:tw=78:ts=2:sw=2:expandtab:ft=help:norl:
