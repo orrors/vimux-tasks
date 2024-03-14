@@ -121,7 +121,7 @@ endfunction
 " ==================================
 " Main Popup function
 
-function! vimux#RunTasks() abort
+function! vimuxtasks#RunTasks() abort
   let tasks = s:LoadTasksJson()
   if len(tasks) == 0
     let tasks = [{ 'label': 'Generate tasks file', 'command': "cat > .vim/tasks.json <<< '" . s:DefaultTasks . "'" }]
