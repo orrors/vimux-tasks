@@ -69,8 +69,8 @@ function! s:VimuxTasksFilter(tasks, id, key) abort
 endfunction
 
 function! s:RunTaskPopup(tasks) abort
-  let taskArray = mapnew(a:tasks, {key, task -> (key + 1) . '. ' . task.label})
-  call popup_menu(taskArray, {
+  let l:tasks = deepcopy(a:tasks)
+  call popup_menu(map(l:tasks, {key, task -> (key + 1) . '. ' . task.label}), {
         \ 'title': ' Run Task ',
         \ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
         \ 'callback': function('s:VimuxTasksSink', [a:tasks]),
@@ -111,11 +111,12 @@ function! s:VimuxTasksSinkFZF(tasks, selection) abort
 endfunction
 
 function! s:RunTaskFZF(tasks) abort
-    call fzf#run({
-      \ 'source': mapnew(a:tasks, {key, task -> task.label}) ,
-      \ 'sink': function('s:VimuxTasksSinkFZF', [a:tasks]),
-      \ 'options': "--prompt 'Run Task > ' --no-info '--bind=ctrl-l:execute@printf \">>>> \"@+accept' --header ':: \e[1;33mEnter\e[m Run command. \e[1;33mctrl-l\e[m Type command'",
-      \ 'tmux': '-p40%,30%'})
+  let l:tasks = deepcopy(a:tasks)
+  call fzf#run({
+    \ 'source': map(l:tasks, {key, task -> task.label}) ,
+    \ 'sink': function('s:VimuxTasksSinkFZF', [a:tasks]),
+    \ 'options': "--prompt 'Run Task > ' --no-info '--bind=ctrl-l:execute@printf \">>>> \"@+accept' --header ':: \e[1;33mEnter\e[m Run command. \e[1;33mctrl-l\e[m Type command'",
+    \ 'tmux': '-p40%,30%'})
 endfunction
 
 " ==================================
