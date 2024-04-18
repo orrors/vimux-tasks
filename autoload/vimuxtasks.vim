@@ -134,7 +134,7 @@ function! vimuxtasks#RunTasks() abort
 
   if VimuxOption('VimuxTasksSelect') ==# 'popup'
     call s:RunTaskPopup(tasks)
-  elseif VimuxOption('VimuxTaksSelect') ==# 'tmux-fzf' && &runtimepath =~# 'fzf.vim' && glob('~/.vim/plugged/fzf.vim/plugin/fzf.vim') !=# ''
+  elseif VimuxOption('VimuxTaksSelect') ==# 'tmux-fzf'
     call s:RunTaskFZF(tasks)
   else
     call s:RunTaskPopup(tasks)
