@@ -47,47 +47,6 @@ function! s:LoadPackageJson() abort
   return tasksArray
 endfunction
 
-" ==================================
-" Popup launcher
-
-function! s:VimuxTasksSink(tasks, id, choice) abort
-  if a:choice < 0 " cancel popup
-    return
-  endif
-  call popup_hide(a:id)
-  let task = get(a:tasks, a:choice - 1)
-  VimuxRunCommand(task.command)
-endfunction
-
-function! s:VimuxTasksFilter(tasks, id, key) abort
-  " TODO this only works from 0 to 9
-  if a:key =~# '\d'
-    call s:VimuxTasksSink(a:tasks, a:id, a:key)
-  else " No shortcut, pass to generic filter
-    return popup_filter_menu(a:id, a:key)
-  endif
-endfunction
-
-function! s:RunTaskPopup(tasks) abort
-  let l:tasks = deepcopy(a:tasks)
-  call popup_menu(map(l:tasks, {key, task -> (key + 1) . '. ' . task.label}), {
-        \ 'title': ' Run Task ',
-        \ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
-        \ 'callback': function('s:VimuxTasksSink', [a:tasks]),
-        \ 'border': [],
-        \ 'cursorline': 1,
-        \ 'padding': [1,2,1,2],
-        \ 'filter': function('s:VimuxTasksFilter', [a:tasks]),
-        \ 'mapping': 0,
-        \ })
-endfunction
-
-" ==================================
-" FZF Popup function
-function! Pad(s,amt) abort
-    return a:s . repeat(' ',a:amt - len(a:s))
-endfunction
-
 function! s:VimuxTasksSinkFZF(tasks, selection) abort
   if match(a:selection,'>>>>') == 0
     let l:select = a:selection[5:]
@@ -132,11 +91,7 @@ function! vimuxtasks#RunTasks() abort
     call extend(tasks, packageTasks)
   endif
 
-  if VimuxOption('VimuxTasksSelect') ==# 'popup'
-    call s:RunTaskPopup(tasks)
-  elseif VimuxOption('VimuxTaksSelect') ==# 'tmux-fzf'
+  if VimuxOption('VimuxTaksSelect') ==# 'tmux-fzf'
     call s:RunTaskFZF(tasks)
-  else
-    call s:RunTaskPopup(tasks)
   endif
 endfunction
