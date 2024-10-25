@@ -33,6 +33,8 @@ function! s:LoadPackageJson() abort
   let json = readfile('package.json')
   if filereadable('yarn.lock')
     let node = 'yarn'
+  elseif filereadable('pnpm-lock.yaml')
+    let node = 'pnpm'
   else
     let node = 'npm'
   endif
